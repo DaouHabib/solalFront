@@ -1,0 +1,42 @@
+<app-breadcrumb [title]="'Register'" [breadcrumb]="'Register'"></app-breadcrumb>
+<!-- section start -->
+<section class="register-page section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>create account</h3>
+                <div class="theme-card">
+                    <form class="theme-form" [formGroup]="accountForm" > 
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="fname">First Name</label>
+                                <input type="text" class="form-control" id="fname" placeholder="First Name" required="" formControlName="firstName">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="review">Last Name</label>
+                                <input type="text" class="form-control" id="lname" placeholder="Last Name" required="" formControlName="lastName">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label for="email">email</label>
+                                <input type="text" class="form-control" id="email" placeholder="Email" required="" formControlName="email">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone">phone</label>
+                                <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" required="" formControlName="phone">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="review">Password</label>
+                                <input type="password" class="form-control" id="review" placeholder="Enter your password" required="" formControlName="password">
+                            </div>
+                            
+                            <button class="btn btn-solid" (click)="adduser()">create Account</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Section ends-->
