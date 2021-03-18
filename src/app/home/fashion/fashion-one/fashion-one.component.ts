@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ProductSlider } from '../../../shared/data/slider';
 import { Product } from '../../../shared/classes/product';
 import { ProductService } from '../../../shared/services/product.service';
+import { Produitservice } from '../../../shared/services/produit.service';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-fashion-one',
@@ -13,7 +17,8 @@ export class FashionOneComponent implements OnInit {
   public products: Product[] = [];
   public productCollections: any[] = [];
   
-  constructor(public productService: ProductService) {
+  constructor(public productService: ProductService ,private porduitService :Produitservice,private http: HttpClient,
+    public sanitization: DomSanitizer) {
     this.productService.getProducts.subscribe(response => {
       this.products = response.filter(item => item.type == 'fashion');
       // Get Product Collection
@@ -25,6 +30,7 @@ export class FashionOneComponent implements OnInit {
       })
     });
   }
+  public collections = [];
 
   public ProductSliderConfig: any = ProductSlider;
 
@@ -37,17 +43,55 @@ export class FashionOneComponent implements OnInit {
     subTitle: 'Women fashion',
     image: 'assets/images/slider/2.jpg'
   }]
+  createImageFromBlob(image: Blob) {
+    var  imageToShow:any;
+    let reader = new FileReader();
+    reader.addEventListener(
+        "load",
+        () => {
+          imageToShow = this.sanitization.bypassSecurityTrustResourceUrl(
+                reader.result.toString()
+            );
+            console.log(imageToShow);
+            this.collections.push({
+             
+                image: imageToShow,
+                save: 'save 50%',
+                title: 'men'
+              },
+            
+           )
+        },
+        false
+    );
+
+    if (image) {
+   reader.readAsDataURL(image);
+    }
+}
+  getImageFromService(produit : any):any {
+    console.log(produit);
+    this.getImage(produit.imageUrl).subscribe(
+        (data) => {
+            this.createImageFromBlob(data);
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+}
+  getImage(produit :any): Observable<Blob> {
+    console.log(produit);
+    return this.http.get(
+        
+        "http://localhost:3000/uploads/image/"+produit,
+        { responseType: "blob" }
+    );
+}
 
   // Collection banner
-  public collections = [{
-    image: 'assets/images/collection/fashion/1.jpg',
-    save: 'save 50%',
-    title: 'men'
-  }, {
-    image: 'assets/images/collection/fashion/2.jpg',
-    save: 'save 50%',
-    title: 'women'
-  }];
+ 
+
 
   // Blog
   public blog = [{
@@ -92,6 +136,11 @@ export class FashionOneComponent implements OnInit {
   }];
 
   ngOnInit(): void {
+    this.porduitService.getAll().subscribe(res=>{
+      res.forEach(element => {
+    this.getImageFromService(element);
+    });
+    })
   }
 
   // Product Tab collection

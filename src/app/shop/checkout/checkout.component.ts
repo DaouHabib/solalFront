@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 import { Product } from "../../shared/classes/product";
 import { ProductService } from "../../shared/services/product.service";
 import { OrderService } from "../../shared/services/order.service";
-
+import { UserService } from '../../shared/services/user.service';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -19,10 +19,13 @@ export class CheckoutComponent implements OnInit {
   public payPalConfig ? : IPayPalConfig;
   public payment: string = 'Stripe';
   public amount:  any;
-
+  connectedId=localStorage.getItem('connectedId');
+  confirmation : any;
+  loading = false;
   constructor(private fb: FormBuilder,
     public productService: ProductService,
-    private orderService: OrderService) { 
+    private orderService: OrderService,
+    private userService : UserService) { 
     this.checkoutForm = this.fb.group({
       firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
       lastname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
@@ -36,10 +39,58 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
+
+
+
+
+  paymentHandler:any = null;
+
+
+  
+  makePayment(amount) {
+    const paymentHandler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_51IIXF1L6frWMET0J4eWXnDZRyiaLMcarU7IBFo5dpuI0gE9Snhpf5uF28GOMnOPZr6We5WnPuQ4sDn6nJFjGuMHy00JqT3matO',
+      locale: 'auto',
+      token: function (stripeToken: any) {
+        console.log(stripeToken)
+        alert('Stripe token generated!');
+      }
+    });
+  
+    paymentHandler.open({
+      name: 'Positronx',
+      description: '3 widgets',
+      amount: amount * 100
+    });
+  }
+  
+  invokeStripe() {
+    if(!window.document.getElementById('stripe-script')) {
+      const script = window.document.createElement("script");
+      script.id = "stripe-script";
+      script.type = "text/javascript";
+      script.src = "https://checkout.stripe.com/checkout.js";
+      script.onload = () => {
+        this.paymentHandler = (<any>window).StripeCheckout.configure({
+          key: 'pk_test_51IIXF1L6frWMET0J4eWXnDZRyiaLMcarU7IBFo5dpuI0gE9Snhpf5uF28GOMnOPZr6We5WnPuQ4sDn6nJFjGuMHy00JqT3matO',
+          locale: 'auto',
+          token: function (stripeToken: any) {
+            console.log(stripeToken)
+            alert('Payment has been successfull!');
+          }
+        });
+      }
+        
+      window.document.body.appendChild(script);
+    }
+  }
+
   ngOnInit(): void {
     this.productService.cartItems.subscribe(response => this.products = response);
     this.getTotal.subscribe(amount => this.amount = amount);
     this.initConfig();
+    this.invokeStripe();
+
   }
 
   public get getTotal(): Observable<number> {
