@@ -57,7 +57,7 @@ export class FashionOneComponent implements OnInit {
              
                 image: imageToShow,
                 save: 'save 50%',
-                title: 'men'
+                title: 'IReality'
               },
             
            )
