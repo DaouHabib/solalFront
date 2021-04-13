@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, startWith, delay } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Product } from '../classes/product';
+import { Product, Produit } from '../classes/product';
 
 const state = {
   products: JSON.parse(localStorage['products'] || '[]'),
@@ -139,6 +139,14 @@ export class ProductService {
     return <Observable<Product[]>>itemsStream;
   }
 
+  public get cartItems2(): Observable<Produit[]> {
+    const itemsStream = new Observable(observer => {
+      observer.next(state.cart);
+      observer.complete();
+    });
+    return <Observable<Produit[]>>itemsStream;
+  }
+
   // Add to Cart
   public addToCart(product): any {
     const cartItem = state.cart.find(item => item.id === product.id);
@@ -208,7 +216,17 @@ export class ProductService {
       }, 0);
     }));
   }
-
+  public cartTotalAmount2(): Observable<number> {
+    return this.cartItems2.pipe(map((product: Produit[]) => {
+      return product.reduce((prev, curr: Produit) => {
+        let price = curr.prix;
+        if(curr.discount) {
+          price = curr.prix - (curr.prix * curr.discount / 100)
+        }
+        return (prev + price * curr.quantity) * this.Currency.price;
+      }, 0);
+    }));
+  }
   /*
     ---------------------------------------------
     ------------  Filter Product  ---------------

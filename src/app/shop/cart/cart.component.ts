@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductService } from "../../shared/services/product.service";
-import { Product } from "../../shared/classes/product";
+import { Product, Produit } from "../../shared/classes/product";
 
 @Component({
   selector: 'app-cart',
@@ -10,17 +10,17 @@ import { Product } from "../../shared/classes/product";
 })
 export class CartComponent implements OnInit {
 
-  public products: Product[] = [];
+  public products: Produit[] = [];
 
   constructor(public productService: ProductService) {
-    this.productService.cartItems.subscribe(response => this.products = response);
+    this.productService.cartItems2.subscribe(response => this.products = response);
   }
 
   ngOnInit(): void {
   }
 
   public get getTotal(): Observable<number> {
-    return this.productService.cartTotalAmount();
+    return this.productService.cartTotalAmount2();
   }
 
   // Increament

@@ -17,6 +17,21 @@ export interface Product {
     variants?: Variants[];
     images?: Images[];
 }
+export interface Produit {
+    id?: string;
+    title?: string;
+    description?: string;
+    type?: string;
+    brand?: string;
+    category?: string;
+    prix?: number;
+    sale?: boolean;
+    discount?: number;
+    stock?: number;
+    new?: boolean;
+    quantity?: number;
+    imageUrl?: string;
+}
 
 export interface Variants {
     variant_id?: number;

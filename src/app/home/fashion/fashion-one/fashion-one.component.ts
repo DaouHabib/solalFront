@@ -43,7 +43,7 @@ export class FashionOneComponent implements OnInit {
     subTitle: 'Women fashion',
     image: 'assets/images/slider/2.jpg'
   }]
-  createImageFromBlob(image: Blob) {
+  createImageFromBlob(image: Blob,produit:any) {
     var  imageToShow:any;
     let reader = new FileReader();
     reader.addEventListener(
@@ -52,12 +52,21 @@ export class FashionOneComponent implements OnInit {
           imageToShow = this.sanitization.bypassSecurityTrustResourceUrl(
                 reader.result.toString()
             );
-            console.log(imageToShow);
             this.collections.push({
-             
-                image: imageToShow,
-                save: 'save 50%',
-                title: 'IReality'
+              id: produit._id,
+              title: produit.title,
+              description:produit.description ,
+              type: produit.type,
+              brand: produit.brand,
+              category:produit.category,
+              prix: produit.prix,
+              sale: produit.sale,
+              discount: produit.discount,
+              stock: produit.stock,
+              new: produit.new,
+              quantity: produit.quantity,
+              imageUrl: imageToShow
+
               },
             
            )
@@ -73,7 +82,7 @@ export class FashionOneComponent implements OnInit {
     console.log(produit);
     this.getImage(produit.imageUrl).subscribe(
         (data) => {
-            this.createImageFromBlob(data);
+            this.createImageFromBlob(data,produit);
         },
         (error) => {
             console.log(error);
@@ -143,6 +152,17 @@ export class FashionOneComponent implements OnInit {
     })
   }
 
+  addToCart(product: any) {
+    this.productService.addToCart(product);
+  }
+
+  addToWishlist(product: any) {
+    this.productService.addToWishlist(product);
+  }
+
+  addToCompare(product: any) {
+    this.productService.addToCompare(product);
+  }
   // Product Tab collection
   getCollectionProducts(collection) {
     return this.products.filter((item) => {

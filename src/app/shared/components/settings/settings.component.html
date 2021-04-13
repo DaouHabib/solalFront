@@ -58,7 +58,7 @@
         <li *ngFor="let product of products">
           <div class="media">
             <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
-              <img class="mr-3" [src]="product?.images[0].src" [alt]="product?.images[0].alt">
+              <img class="mr-3" [src]="product?.imageUrl" >
             </a>
             <div class="media-body">
               <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
