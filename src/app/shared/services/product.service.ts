@@ -66,6 +66,13 @@ export class ProductService {
     });
     return <Observable<Product[]>>itemsStream;
   }
+  public get wishlistItems2(): Observable<Produit[]> {
+    const itemsStream = new Observable(observer => {
+      observer.next(state.wishlist);
+      observer.complete();
+    });
+    return <Observable<Produit[]>>itemsStream;
+  }
 
   // Add to Wishlist
   public addToWishlist(product): any {
@@ -103,6 +110,14 @@ export class ProductService {
     return <Observable<Product[]>>itemsStream;
   }
 
+  public get compareItems2(): Observable<Produit[]> {
+    const itemsStream = new Observable(observer => {
+      observer.next(state.compare);
+      observer.complete();
+    });
+    return <Observable<Produit[]>>itemsStream;
+  }
+
   // Add to Compare
   public addToCompare(product): any {
     const compareItem = state.compare.find(item => item.id === product.id)
@@ -118,6 +133,12 @@ export class ProductService {
 
   // Remove Compare items
   public removeCompareItem(product: Product): any {
+    const index = state.compare.indexOf(product);
+    state.compare.splice(index, 1);
+    localStorage.setItem("compareItems", JSON.stringify(state.compare));
+    return true
+  }
+  public removeCompareItem2(product: Produit): any {
     const index = state.compare.indexOf(product);
     state.compare.splice(index, 1);
     localStorage.setItem("compareItems", JSON.stringify(state.compare));

@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, Input,
 import { isPlatformBrowser } from '@angular/common';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { Product } from "../../../classes/product";
+import { Product, Produit } from "../../../classes/product";
 import { ProductService } from '../../../../shared/services/product.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { ProductService } from '../../../../shared/services/product.service';
 })
 export class QuickViewComponent implements OnInit, OnDestroy  {
 
-  @Input() product: Product;
+  @Input() product: Produit;
   @Input() currency: any;  
   @ViewChild("quickView", { static: false }) QuickView: TemplateRef<any>;
 
@@ -56,39 +56,13 @@ export class QuickViewComponent implements OnInit, OnDestroy  {
   }
 
   // Get Product Color
-  Color(variants) {
-    const uniqColor = []
-    for (let i = 0; i < Object.keys(variants).length; i++) {
-      if (uniqColor.indexOf(variants[i].color) === -1 && variants[i].color) {
-        uniqColor.push(variants[i].color)
-      }
-    }
-    return uniqColor
-  }
+ 
 
   // Get Product Size
-  Size(variants) {
-    const uniqSize = []
-    for (let i = 0; i < Object.keys(variants).length; i++) {
-      if (uniqSize.indexOf(variants[i].size) === -1 && variants[i].size) {
-        uniqSize.push(variants[i].size)
-      }
-    }
-    return uniqSize
-  }
+  
 
   // Change Variants
-  ChangeVariants(color, product) {
-    product.variants.map((item) => {
-      if (item.color === color) {
-        product.images.map((img) => {
-          if (img.image_id === item.image_id) {
-            this.ImageSrc = img.src
-          }
-        })
-      }
-    })
-  }
+
 
   // Increament
   increment() {

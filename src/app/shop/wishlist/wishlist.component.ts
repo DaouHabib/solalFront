@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from "../../shared/services/product.service";
-import { Product } from "../../shared/classes/product";
+import { Product, Produit } from "../../shared/classes/product";
 
 @Component({
   selector: 'app-wishlist',
@@ -10,11 +10,11 @@ import { Product } from "../../shared/classes/product";
 })
 export class WishlistComponent implements OnInit {
 
-  public products: Product[] = [];
+  public products: Produit[] = [];
 
   constructor(private router: Router, 
     public productService: ProductService) {
-    this.productService.wishlistItems.subscribe(response => this.products = response);
+    this.productService.wishlistItems2.subscribe(response => this.products = response);
   }
 
   ngOnInit(): void {

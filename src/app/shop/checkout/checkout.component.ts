@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
 import { environment } from '../../../environments/environment';
-import { Product } from "../../shared/classes/product";
+import { Product, Produit } from "../../shared/classes/product";
 import { ProductService } from "../../shared/services/product.service";
 import { OrderService } from "../../shared/services/order.service";
 import { UserService } from '../../shared/services/user.service';
@@ -15,7 +15,7 @@ import { UserService } from '../../shared/services/user.service';
 export class CheckoutComponent implements OnInit {
 
   public checkoutForm:  FormGroup;
-  public products: Product[] = [];
+  public products: Produit[] = [];
   public payPalConfig ? : IPayPalConfig;
   public payment: string = 'Stripe';
   public amount:  any;
@@ -86,7 +86,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productService.cartItems.subscribe(response => this.products = response);
+    this.productService.cartItems2.subscribe(response => this.products = response);
     this.getTotal.subscribe(amount => this.amount = amount);
     this.initConfig();
     this.invokeStripe();
@@ -94,7 +94,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   public get getTotal(): Observable<number> {
-    return this.productService.cartTotalAmount();
+    return this.productService.cartTotalAmount2();
   }
 
   // Stripe Payment Gateway

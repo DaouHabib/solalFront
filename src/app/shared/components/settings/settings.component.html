@@ -57,13 +57,9 @@
       <ul class="show-div shopping-cart" *ngIf='products.length'>
         <li *ngFor="let product of products">
           <div class="media">
-            <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
               <img class="mr-3" [src]="product?.imageUrl" >
-            </a>
             <div class="media-body">
-              <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
                 <h4>{{ product?.title }}</h4>
-              </a>
               <h4>
                 <span>
                   {{ product?.quantity }} x 
