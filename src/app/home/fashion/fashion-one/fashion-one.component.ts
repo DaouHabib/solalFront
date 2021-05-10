@@ -35,13 +35,13 @@ export class FashionOneComponent implements OnInit {
   public ProductSliderConfig: any = ProductSlider;
 
   public sliders = [{
-    title: 'welcome to fashion',
-    subTitle: 'Men fashion',
-    image: 'assets/images/slider/1.jpg'
+    title: 'Welcome to Ireality',
+    subTitle: 'Augmented Réality Store',
+    image: 'assets/images/realite-augmentee.jpg'
   }, {
-    title: 'welcome to fashion',
-    subTitle: 'Women fashion',
-    image: 'assets/images/slider/2.jpg'
+    title: 'Welcome to Ireality',
+    subTitle: 'Augmented Réality Store',
+    image: 'assets/images/realite-augmentee-smartphones.jpg'
   }]
   createImageFromBlob(image: Blob,produit:any) {
     var  imageToShow:any;

@@ -21,6 +21,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { SuccessComponent } from './checkout/success/success.component';
 
 import { Resolver } from '../shared/services/resolver.service';
+import { ProductdetailComponent } from './product/sidebar/product-detail/product-detail.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
     resolve: {
       data: Resolver
     }
+  },
+  {
+    path: 'product/detail/:idporduct',
+    component: ProductdetailComponent
+    
   },
   {
     path: 'product/right/sidebar/:slug',

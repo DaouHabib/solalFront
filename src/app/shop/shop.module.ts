@@ -41,10 +41,12 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { CompareComponent } from './compare/compare.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SuccessComponent } from './checkout/success/success.component';
+import { ProductdetailComponent } from './product/sidebar/product-detail/product-detail.component';
 
 
 @NgModule({
   declarations: [
+    ProductdetailComponent,
     ProductLeftSidebarComponent, 
     ProductRightSidebarComponent,
     ProductNoSidebarComponent,
